@@ -1,14 +1,8 @@
-#
-# Build stage
-#
-FROM amazoncorretto:17 AS build
-COPY ./ /home/app
-RUN cd /home/app && ./gradlew build
+FROM adoptopenjdk/openjdk11
 
-#
-# Package stage
-#
-FROM amazoncorretto:17-alpine
-COPY --from=build /home/app/build/libs/WebBeginnerAnswer-0.0.1-SNAPSHOT.jar /usr/local/lib/WebBeginnerAnswer.jar
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","-Dfile.encoding=UTF-8","/usr/local/lib/WebBeginnerAnswer.jar"]
+RUN apt-get update
+RUN apt-get -y install curl
+RUN apt-get -y install zip
+RUN curl -s "https://get.sdkman.io" | bash
+RUN echo ". $HOME/.sdkman/bin/sdkman-init.sh; sdk install gradle" | bash
+WORKDIR /java_project/

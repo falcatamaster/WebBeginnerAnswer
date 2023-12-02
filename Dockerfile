@@ -1,14 +1,63 @@
-FROM ubuntu:18.04
-ENV SDKMAN_DIR=/root/.sdkman
-RUN apt-get update
-RUN apt -y install openjdk-11-jdk
-RUN apt-get install zip unzip
-RUN apt -y install curl
-RUN curl -s "https://get.sdkman.io" | bash
-RUN echo "sdkman_auto_answer=true" > $SDKMAN_DIR/etc/config
-RUN echo "sdkman_auto_selfupdate=false" >> $SDKMAN_DIR/etc/config
-RUN bash -c "source $SDKMAN_DIR/bin/sdkman-init.sh && sdk install gradle"
+FROM eclipse-temurin:11-jdk-jammy
 
+CMD ["gradle"]
 
-RUN gradle build
+ENV GRADLE_HOME /opt/gradle
 
+RUN set -o errexit -o nounset \
+    && echo "Adding gradle user and group" \
+    && groupadd --system --gid 1000 gradle \
+    && useradd --system --gid gradle --uid 1000 --shell /bin/bash --create-home gradle \
+    && mkdir /home/gradle/.gradle \
+    && chown --recursive gradle:gradle /home/gradle \
+    \
+    && echo "Symlinking root Gradle cache to gradle Gradle cache" \
+    && ln --symbolic /home/gradle/.gradle /root/.gradle
+
+VOLUME /home/gradle/.gradle
+
+WORKDIR /home/gradle
+
+RUN set -o errexit -o nounset \
+    && apt-get update \
+    && apt-get install --yes --no-install-recommends \
+        unzip \
+        wget \
+        \
+        bzr \
+        git \
+        git-lfs \
+        mercurial \
+        openssh-client \
+        subversion \
+    && rm --recursive --force /var/lib/apt/lists/* \
+    \
+    && echo "Testing VCSes" \
+    && which bzr \
+    && which git \
+    && which git-lfs \
+    && which hg \
+    && which svn
+
+ENV GRADLE_VERSION 8.5
+ARG GRADLE_DOWNLOAD_SHA256=9d926787066a081739e8200858338b4a69e837c3a821a33aca9db09dd4a41026
+RUN set -o errexit -o nounset \
+    && echo "Downloading Gradle" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip" \
+    \
+    && echo "Checking Gradle download hash" \
+    && echo "${GRADLE_DOWNLOAD_SHA256} *gradle.zip" | sha256sum --check - \
+    \
+    && echo "Installing Gradle" \
+    && unzip gradle.zip \
+    && rm gradle.zip \
+    && mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
+    && ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
+
+USER gradle
+
+RUN set -o errexit -o nounset \
+    && echo "Testing Gradle installation" \
+    && gradle --version
+
+USER root

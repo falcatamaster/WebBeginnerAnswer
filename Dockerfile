@@ -62,4 +62,6 @@ RUN set -o errexit -o nounset \
 
 USER root
 
+COPY src/ /src
+
 RUN gradle build

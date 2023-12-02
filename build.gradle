@@ -35,6 +35,7 @@ dependencies {
 // ↑省略、依存関係がつらつらと・・・ //
 
 // 追加分↓ //
+/*
 def springBootApplicationName = 'test-build' // 生成するjarファイル名を定義した変数（別に変数化しなくても良い）
 def applicationVersion = project.properties['release.version'] // バーションを定義した変数（別に変数化しなくても良い）
 
@@ -42,3 +43,4 @@ bootJar {
     baseName = springBootApplicationName // 生成するjarファイル名を指定
     version = applicationVersion // バーションを指定（詳しいことは調べてないけどなくても良さそう）
 }
+*/

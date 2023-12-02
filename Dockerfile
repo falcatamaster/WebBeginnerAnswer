@@ -62,6 +62,6 @@ RUN set -o errexit -o nounset \
 
 USER root
 
-COPY src/ /src
+COPY . .
 
-RUN gradle build
+RUN ["gradle", "build"]

@@ -5,7 +5,7 @@ FROM adoptopenjdk/openjdk11:x86_64-ubuntu-jdk-11.0.18_10-slim
 WORKDIR /app
 
 # copy a jvm app.
-COPY build/libs/*.jar app.jar
+COPY build/libs/WebBeginnerAnswer-0.0.1-SNAPSHOT.jar app.jar
 
 # open port 8080 for a jvm app.
 EXPOSE 8080

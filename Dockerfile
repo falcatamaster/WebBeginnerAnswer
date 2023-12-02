@@ -11,7 +11,7 @@ WORKDIR /usr/project
 
 COPY . .
 
-RUN gradle build
+RUN ./gradlew build
 
 # create a work dir.
 # WORKDIR /app

@@ -1,0 +1,2 @@
+com/example/demo/WebBeginnerApplicationTests.java
+ com.example.demo.WebBeginnerApplicationTests

@@ -7,6 +7,6 @@ spring:
 #  h2.console.enabled: true
   datasource:
     driverClassName: org.postgresql.Driver
-    url: postgres://database_ngiq_user:iCkyhvuSocTqA12oJBIpFxutFNGuM6L7@dpg-clo87usjtl8s73alka7g-a/database_ngiq
-#    username: ${JDBC_DATABASE_USERNAME}
-#    password: ${JDBC_DATABASE_PASSWORD}
+    url: postgres://database_ngiq_user:iCkyhvuSocTqA12oJBIpFxutFNGuM6L7@dpg-clo87usjtl8s73alka7g-a.singapore-postgres.render.com/database_ngiq
+    username: database_ngiq_user
+    password: iCkyhvuSocTqA12oJBIpFxutFNGuM6L7

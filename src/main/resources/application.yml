@@ -1,7 +1,12 @@
 spring:
+#  datasource:
+#    url: jdbc:h2:mem:test
+#    driverClassName: org.h2.Driver
+#    username: sa
+#    password:
+#  h2.console.enabled: true
   datasource:
-    url: jdbc:h2:mem:test
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
-  h2.console.enabled: true
+    driverClassName: org.postgresql.Driver
+    url: postgres://database_ngiq_user:iCkyhvuSocTqA12oJBIpFxutFNGuM6L7@dpg-clo87usjtl8s73alka7g-a/database_ngiq
+#    username: ${JDBC_DATABASE_USERNAME}
+#    password: ${JDBC_DATABASE_PASSWORD}
